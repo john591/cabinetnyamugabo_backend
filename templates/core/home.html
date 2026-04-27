@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Cabinet Nyamugabo{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h2>Trusted legal support for businesses and individuals.</h2>
+    <p class="muted">This backend currently serves the core pages and forms that will later back the React frontend.</p>
+</section>
+
+<section>
+    <h3>Featured Services</h3>
+    <div class="grid">
+        {% for service in featured_services %}
+            <article class="card">
+                <h4><a href="{{ service.get_absolute_url }}">{{ service.title }}</a></h4>
+                <p>{{ service.short_description }}</p>
+            </article>
+        {% empty %}
+            <p>No featured services available yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section>
+    <h3>Our Team</h3>
+    <div class="grid">
+        {% for member in team_members %}
+            <article class="card">
+                <h4><a href="{{ member.get_absolute_url }}">{{ member.full_name }}</a></h4>
+                <p>{{ member.role }}</p>
+            </article>
+        {% empty %}
+            <p>No team members available yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section>
+    <h3>Latest Insights</h3>
+    <div class="grid">
+        {% for post in latest_posts %}
+            <article class="card">
+                <h4><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
+                <p>{{ post.summary }}</p>
+            </article>
+        {% empty %}
+            <p>No published articles available yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

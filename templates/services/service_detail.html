@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}{{ service.title }} | Cabinet Nyamugabo{% endblock %}
+
+{% block content %}
+<article class="card">
+    <h2>{{ service.title }}</h2>
+    <p class="muted">{{ service.short_description }}</p>
+    <p>{{ service.description }}</p>
+</article>
+{% endblock %}

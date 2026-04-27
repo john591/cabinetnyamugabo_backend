@@ -1,0 +1,27 @@
+altgraph @ file:///AppleInternal/Library/BuildRoots/4~CKgHugAcJujzKlRoChleiLcli8Pvfh2Zw9NQTKg/Library/Caches/com.apple.xbs/Sources/python3/altgraph-0.17.2-py2.py3-none-any.whl
+asgiref==3.11.1
+boto3==1.42.84
+botocore==1.42.84
+dj-database-url==3.0.1
+Django==4.2.29
+django-cors-headers==4.9.0
+django-filter==25.1
+django-storages==1.14.6
+djangorestframework==3.16.1
+djangorestframework_simplejwt==5.5.1
+future @ file:///AppleInternal/Library/BuildRoots/4~CKgHugAcJujzKlRoChleiLcli8Pvfh2Zw9NQTKg/Library/Caches/com.apple.xbs/Sources/python3/future-0.18.2-py3-none-any.whl
+gunicorn==23.0.0
+jmespath==1.1.0
+macholib @ file:///AppleInternal/Library/BuildRoots/4~CKgHugAcJujzKlRoChleiLcli8Pvfh2Zw9NQTKg/Library/Caches/com.apple.xbs/Sources/python3/macholib-1.15.2-py2.py3-none-any.whl
+packaging==26.1
+pillow==11.3.0
+psycopg2-binary==2.9.11
+PyJWT==2.12.1
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.1
+s3transfer==0.16.0
+six @ file:///AppleInternal/Library/BuildRoots/4~CKgHugAcJujzKlRoChleiLcli8Pvfh2Zw9NQTKg/Library/Caches/com.apple.xbs/Sources/python3/six-1.15.0-py2.py3-none-any.whl
+sqlparse==0.5.5
+typing_extensions==4.15.0
+urllib3==1.26.20
+whitenoise==6.11.0

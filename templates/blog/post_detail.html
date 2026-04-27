@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} | Cabinet Nyamugabo{% endblock %}
+
+{% block content %}
+<article class="card">
+    <h2>{{ post.title }}</h2>
+    <p class="muted">
+        {% if post.author %}By {{ post.author.full_name }}{% endif %}
+        {% if post.published_at %} on {{ post.published_at|date:"M d, Y" }}{% endif %}
+    </p>
+    <p>{{ post.summary }}</p>
+    <div>{{ post.body|linebreaks }}</div>
+</article>
+{% endblock %}

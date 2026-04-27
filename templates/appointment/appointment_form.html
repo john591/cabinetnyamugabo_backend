@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Request Appointment | Cabinet Nyamugabo{% endblock %}
+
+{% block content %}
+<h2>Request an Appointment</h2>
+<p class="muted">Submit your preferred consultation time and the team can confirm availability.</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Request appointment</button>
+</form>
+{% endblock %}

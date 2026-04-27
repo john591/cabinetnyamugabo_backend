@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}{{ member.full_name }} | Cabinet Nyamugabo{% endblock %}
+
+{% block content %}
+<article class="card">
+    <h2>{{ member.full_name }}</h2>
+    <p class="muted">{{ member.role }}</p>
+    <p>{{ member.bio }}</p>
+    {% if member.email %}<p>Email: {{ member.email }}</p>{% endif %}
+    {% if member.phone %}<p>Phone: {{ member.phone }}</p>{% endif %}
+    {% if member.linkedin_url %}<p><a href="{{ member.linkedin_url }}">LinkedIn</a></p>{% endif %}
+</article>
+{% endblock %}

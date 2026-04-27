@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}About | Cabinet Nyamugabo{% endblock %}
+
+{% block content %}
+<section>
+    <h2>About the Firm</h2>
+    <p>Cabinet Nyamugabo is built to present legal services, team expertise, thought leadership, and intake workflows from one backend.</p>
+</section>
+
+<section>
+    <h3>Team Members</h3>
+    <div class="grid">
+        {% for member in team_members %}
+            <article class="card">
+                <h4>{{ member.full_name }}</h4>
+                <p>{{ member.role }}</p>
+                <p>{{ member.bio }}</p>
+            </article>
+        {% empty %}
+            <p>Team content will appear here once seeded.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
