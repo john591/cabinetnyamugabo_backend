@@ -6,7 +6,11 @@ import dj_database_url
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(BASE_DIR / ".env")
+IS_RENDER = os.getenv("RENDER", "").lower() == "true" or bool(
+    os.getenv("RENDER_EXTERNAL_HOSTNAME")
+)
+if not IS_RENDER:
+    load_dotenv(BASE_DIR / ".env")
 
 
 def get_env_list(name, default=None):
@@ -17,7 +21,8 @@ def get_env_list(name, default=None):
 
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-dev-key-change-me")
-DEBUG = os.getenv("DJANGO_DEBUG", "True").lower() in {"1", "true", "yes", "on"}
+DEBUG_DEFAULT = "False" if IS_RENDER else "True"
+DEBUG = os.getenv("DJANGO_DEBUG", DEBUG_DEFAULT).lower() in {"1", "true", "yes", "on"}
 ALLOWED_HOSTS = get_env_list(
     "DJANGO_ALLOWED_HOSTS",
     ["127.0.0.1", "localhost", "testserver"],
@@ -93,10 +98,13 @@ if DATABASE_URL:
         )
     }
 else:
+    sqlite_name = os.getenv("DJANGO_DB_NAME", str(BASE_DIR / "db.sqlite3"))
+    if IS_RENDER:
+        sqlite_name = str(BASE_DIR / "db.sqlite3")
     DATABASES = {
         "default": {
             "ENGINE": os.getenv("DJANGO_DB_ENGINE", "django.db.backends.sqlite3"),
-            "NAME": os.getenv("DJANGO_DB_NAME", str(BASE_DIR / "db.sqlite3")),
+            "NAME": sqlite_name,
             "USER": os.getenv("DJANGO_DB_USER", ""),
             "PASSWORD": os.getenv("DJANGO_DB_PASSWORD", ""),
             "HOST": os.getenv("DJANGO_DB_HOST", ""),
