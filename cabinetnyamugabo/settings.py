@@ -247,7 +247,7 @@ DEFAULT_FRONTEND_BASE_URL = os.getenv(
     "https://cabinenyamugabo.vercel.app",
 )
 FRONTEND_BASE_URL = os.getenv("FRONTEND_BASE_URL", "")
-if not DEBUG and (
+if (
     not FRONTEND_BASE_URL
     or FRONTEND_BASE_URL.startswith("http://127.0.0.1")
     or FRONTEND_BASE_URL.startswith("http://localhost")

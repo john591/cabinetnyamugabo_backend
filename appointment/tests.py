@@ -90,11 +90,11 @@ class AppointmentFormTests(TestCase):
         send_sms_confirmation.assert_called_once()
 
     @override_settings(
-        DEBUG=False,
+        DEBUG=True,
         DEFAULT_FRONTEND_BASE_URL="https://cabinenyamugabo.vercel.app",
         FRONTEND_BASE_URL="http://127.0.0.1:3000",
     )
-    def test_production_frontend_url_does_not_use_localhost(self):
+    def test_public_frontend_url_does_not_use_localhost_even_when_debug_is_true(self):
         from .verification import get_public_frontend_base_url
 
         self.assertEqual(get_public_frontend_base_url(), "https://cabinenyamugabo.vercel.app")

@@ -46,7 +46,7 @@ def load_appointment_verification_payload(token):
 
 def get_public_frontend_base_url():
     frontend_base_url = settings.FRONTEND_BASE_URL
-    if not settings.DEBUG and (
+    if (
         not frontend_base_url
         or frontend_base_url.startswith("http://127.0.0.1")
         or frontend_base_url.startswith("http://localhost")
