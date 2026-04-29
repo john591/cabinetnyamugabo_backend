@@ -1,4 +1,5 @@
 from datetime import timedelta
+from urllib.parse import urlparse
 from unittest.mock import patch
 
 from django.core import mail
@@ -348,7 +349,7 @@ class ApiTests(TestCase):
         verify_url = next(
             line for line in mail.outbox[0].body.splitlines() if "/appointments/verify-email/" in line
         )
-        verify_path = verify_url.split("testserver", 1)[1]
+        verify_path = urlparse(verify_url).path
         response = self.client.get(verify_path)
 
         self.assertRedirects(response, reverse("appointment:success"))

@@ -1,4 +1,5 @@
 from datetime import timedelta
+from urllib.parse import urlparse
 from unittest.mock import patch
 
 from django.core import mail
@@ -68,12 +69,13 @@ class AppointmentFormTests(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, "Verify your email")
         self.assertEqual(mail.outbox[0].to, ["client@example.com"])
+        self.assertIn("Cliquer ici pour verifier", mail.outbox[0].alternatives[0][0])
         send_sms_confirmation.assert_not_called()
 
         verify_url = next(
             line for line in mail.outbox[0].body.splitlines() if "/appointments/verify-email/" in line
         )
-        verify_path = verify_url.split("testserver", 1)[1]
+        verify_path = urlparse(verify_url).path
         response = self.client.get(verify_path)
 
         self.assertRedirects(response, reverse("appointment:success"))
@@ -84,7 +86,18 @@ class AppointmentFormTests(TestCase):
         self.assertEqual(mail.outbox[1].to, ["appointments@example.com"])
         self.assertEqual(mail.outbox[2].to, ["client@example.com"])
         self.assertEqual(mail.outbox[2].subject, "We received your appointment request")
+        self.assertIn("Votre demande de rendez-vous est recue", mail.outbox[2].alternatives[0][0])
         send_sms_confirmation.assert_called_once()
+
+    @override_settings(
+        DEBUG=False,
+        DEFAULT_FRONTEND_BASE_URL="https://cabinenyamugabo.vercel.app",
+        FRONTEND_BASE_URL="http://127.0.0.1:3000",
+    )
+    def test_production_frontend_url_does_not_use_localhost(self):
+        from .verification import get_public_frontend_base_url
+
+        self.assertEqual(get_public_frontend_base_url(), "https://cabinenyamugabo.vercel.app")
 
     def test_appointment_form_renders_choice_selects(self):
         form = AppointmentRequestForm()

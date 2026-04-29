@@ -242,7 +242,17 @@ CSRF_TRUSTED_ORIGINS = get_env_list(
         "https://cabinenyamugabo.vercel.app",
     ],
 )
+DEFAULT_FRONTEND_BASE_URL = os.getenv(
+    "DEFAULT_FRONTEND_BASE_URL",
+    "https://cabinenyamugabo.vercel.app",
+)
 FRONTEND_BASE_URL = os.getenv("FRONTEND_BASE_URL", "")
+if not DEBUG and (
+    not FRONTEND_BASE_URL
+    or FRONTEND_BASE_URL.startswith("http://127.0.0.1")
+    or FRONTEND_BASE_URL.startswith("http://localhost")
+):
+    FRONTEND_BASE_URL = DEFAULT_FRONTEND_BASE_URL
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_SSL_REDIRECT = os.getenv("DJANGO_SECURE_SSL_REDIRECT", str(not DEBUG)).lower() in {
     "1",
