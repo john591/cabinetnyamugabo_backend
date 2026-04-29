@@ -8,7 +8,7 @@ class Service(models.Model):
     slug = models.SlugField(max_length=170, unique=True, blank=True)
     short_description = models.CharField(max_length=255)
     description = models.TextField()
-    icon = models.CharField(max_length=50, blank=True)
+    imagelink = models.URLField(blank=True)
     is_featured = models.BooleanField(default=False)
     order = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)

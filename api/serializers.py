@@ -68,7 +68,7 @@ class ServiceSerializer(serializers.ModelSerializer):
             "slug",
             "short_description",
             "description",
-            "icon",
+            "imagelink",
             "is_featured",
             "order",
         ]
