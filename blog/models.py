@@ -1,10 +1,13 @@
+from uuid import uuid4
+
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 
+
 def get_upload_post_images_file_name(instance, filename):
-    return "blog/%s_%s" % (str(time()).replace('.', '_'), filename)
+    return "blog/%s_%s" % (uuid4().hex, filename)
 
 
 class Category(models.Model):
@@ -74,4 +77,3 @@ class Post(models.Model):
             self.published_at = timezone.now()
         super().save(*args, **kwargs)
     
-

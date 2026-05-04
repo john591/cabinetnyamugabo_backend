@@ -1,4 +1,4 @@
-from time import time
+from uuid import uuid4
 
 from django.db import models
 from django.urls import reverse
@@ -6,7 +6,7 @@ from django.utils.text import slugify
 
 
 def get_upload_team_images_file_name(instance, filename):
-    return "team/%s_%s" % (str(time()).replace('.', '_'), filename)
+    return "team/%s_%s" % (uuid4().hex, filename)
 
 class TeamMember(models.Model):
     first_name = models.CharField(max_length=100)

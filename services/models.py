@@ -1,4 +1,4 @@
-from datetime import time
+from uuid import uuid4
 
 from django.db import models
 from django.urls import reverse
@@ -6,7 +6,7 @@ from django.utils.text import slugify
 
 
 def get_upload_service_images_file_name(instance, filename):
-    return "services/%s_%s" % (str(time()).replace('.', '_'), filename)
+    return "services/%s_%s" % (uuid4().hex, filename)
 
 class Service(models.Model):
     title = models.CharField(max_length=150)
