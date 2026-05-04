@@ -1,14 +1,19 @@
+from datetime import time
+
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 
+
+def get_upload_service_images_file_name(instance, filename):
+    return "services/%s_%s" % (str(time()).replace('.', '_'), filename)
 
 class Service(models.Model):
     title = models.CharField(max_length=150)
     slug = models.SlugField(max_length=170, unique=True, blank=True)
     short_description = models.CharField(max_length=255)
     description = models.TextField()
-    imagelink = models.URLField(blank=True)
+    image = models.ImageField(upload_to=get_upload_service_images_file_name)
     is_featured = models.BooleanField(default=False)
     order = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -24,6 +29,3 @@ class Service(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return reverse("services:detail", args=[self.slug])

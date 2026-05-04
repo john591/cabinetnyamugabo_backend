@@ -3,6 +3,9 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 
+def get_upload_post_images_file_name(instance, filename):
+    return "blog/%s_%s" % (str(time()).replace('.', '_'), filename)
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -51,7 +54,7 @@ class Post(models.Model):
         related_name="posts",
     )
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.DRAFT)
-    featured_image_url = models.URLField(blank=True)
+    featured_image = models.ImageField(upload_to=get_upload_post_images_file_name)
     published_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -70,6 +73,5 @@ class Post(models.Model):
         if self.status == self.Status.PUBLISHED and not self.published_at:
             self.published_at = timezone.now()
         super().save(*args, **kwargs)
+    
 
-    def get_absolute_url(self):
-        return reverse("blog:detail", args=[self.slug])

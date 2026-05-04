@@ -1,7 +1,12 @@
+from time import time
+
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 
+
+def get_upload_team_images_file_name(instance, filename):
+    return "team/%s_%s" % (str(time()).replace('.', '_'), filename)
 
 class TeamMember(models.Model):
     first_name = models.CharField(max_length=100)
@@ -12,7 +17,7 @@ class TeamMember(models.Model):
     email = models.EmailField(blank=True)
     phone = models.CharField(max_length=30, blank=True)
     linkedin_url = models.URLField(blank=True)
-    photo_url = models.URLField(blank=True)
+    photo = models.ImageField(upload_to=get_upload_team_images_file_name)
     is_active = models.BooleanField(default=True)
     order = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -32,6 +37,3 @@ class TeamMember(models.Model):
         if not self.slug:
             self.slug = slugify(self.full_name)
         super().save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return reverse("team:detail", args=[self.slug])

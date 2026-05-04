@@ -4,6 +4,7 @@ from pathlib import Path
 
 import dj_database_url
 from dotenv import load_dotenv
+from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 IS_RENDER = os.getenv("RENDER", "").lower() == "true" or bool(
@@ -140,7 +141,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", "")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY", "")
-AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME", "")
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME", "nyamugabo-bucket")
 AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME", "")
 AWS_S3_CUSTOM_DOMAIN = os.getenv("AWS_S3_CUSTOM_DOMAIN", "")
 AWS_S3_SIGNATURE_VERSION = os.getenv("AWS_S3_SIGNATURE_VERSION", "s3v4")
@@ -162,6 +163,15 @@ AWS_S3_OBJECT_PARAMETERS = {
 }
 
 if USE_S3:
+    if not AWS_ACCESS_KEY_ID or not AWS_SECRET_ACCESS_KEY:
+        raise ImproperlyConfigured(
+            "DJANGO_USE_S3=True requires AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY."
+        )
+    if not AWS_STORAGE_BUCKET_NAME:
+        raise ImproperlyConfigured(
+            "DJANGO_USE_S3=True requires AWS_STORAGE_BUCKET_NAME."
+        )
+
     media_domain = AWS_S3_CUSTOM_DOMAIN or (
         f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
         if AWS_STORAGE_BUCKET_NAME and AWS_S3_REGION_NAME
@@ -169,7 +179,7 @@ if USE_S3:
     )
     STORAGES = {
         "default": {
-            "BACKEND": "storages.backends.s3.S3Storage",
+            "BACKEND": "cabinetnyamugabo.storage_backends.MediaStorage",
             "OPTIONS": {
                 "bucket_name": AWS_STORAGE_BUCKET_NAME,
                 "region_name": AWS_S3_REGION_NAME,
