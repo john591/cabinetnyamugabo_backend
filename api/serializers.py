@@ -60,6 +60,8 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
 
 class ServiceSerializer(serializers.ModelSerializer):
+    image_url = serializers.ImageField(source="image", read_only=True)
+
     class Meta:
         model = Service
         fields = [
@@ -68,7 +70,8 @@ class ServiceSerializer(serializers.ModelSerializer):
             "slug",
             "short_description",
             "description",
-            "imagelink",
+            "image",
+            "image_url",
             "is_featured",
             "order",
         ]
@@ -76,6 +79,7 @@ class ServiceSerializer(serializers.ModelSerializer):
 
 class TeamMemberSerializer(serializers.ModelSerializer):
     full_name = serializers.ReadOnlyField()
+    photo_url = serializers.ImageField(source="photo", read_only=True)
 
     class Meta:
         model = TeamMember
@@ -90,6 +94,7 @@ class TeamMemberSerializer(serializers.ModelSerializer):
             "email",
             "phone",
             "linkedin_url",
+            "photo",
             "photo_url",
             "is_active",
             "order",
@@ -134,6 +139,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class PostListSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
     author = TeamMemberSerializer(read_only=True)
+    featured_image_url = serializers.ImageField(source="featured_image", read_only=True)
 
     class Meta:
         model = Post
@@ -144,6 +150,7 @@ class PostListSerializer(serializers.ModelSerializer):
             "summary",
             "category",
             "author",
+            "featured_image",
             "featured_image_url",
             "published_at",
         ]
@@ -179,7 +186,7 @@ class PostWriteSerializer(serializers.ModelSerializer):
             "category_id",
             "author_id",
             "status",
-            "featured_image_url",
+            "featured_image",
             "published_at",
         ]
 
